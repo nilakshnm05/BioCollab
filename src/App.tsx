@@ -1,23 +1,27 @@
 import { useState } from "react";
 import Hero from "./components/Hero";
 import StatusPanel from "./components/StatusPanel";
-import CollaborationCard from "./components/CollaborationCard";
+import CollaborationSection from "./components/CollaborationSection";
+import type { Collaboration } from "@/types/collaboration";
 
-const collaborations = [
+const collaborations: Collaboration[] = [
   {
     id: 1,
     title: "Cancer Research",
     description: "phd in oncology required",
+    status: "looking"
   },
   {
     id: 2,
     title: "Drug Discovery",
     description: "Clinical trial expert needed",
+    status: "open"
   },
   {
     id: 3,
     title: "AI diagnostics",
     description: "AI engineer needed",
+    status: "closed"
   },
 ];
 
@@ -34,18 +38,7 @@ function App() {
         updateState={handleExplore}
       />
       <StatusPanel exploring={isExploring} />
-      {collaborations.length > 0
-        ? collaborations.map((collab) => {
-            return (
-              <CollaborationCard
-                key={collab.id}
-                id={collab.id}
-                title={collab.title}
-                description={collab.description}
-              />
-            );
-          })
-        : "No Collaboartions Found"}
+      <CollaborationSection collabs={collaborations} />
     </>
   );
 }
