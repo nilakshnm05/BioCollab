@@ -6,7 +6,7 @@ type CollaborationCardProps = {
   onView: (id: number) => void;
 };
 import type { CollaborationStatus } from "@/types/collaboration";
-import { statusLabels } from "@/contants/collaboration";
+import { statusLabels } from "@/constants/collaboration";
 function CollaborationCard({
   id,
   title,

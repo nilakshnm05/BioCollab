@@ -1,5 +1,5 @@
 import type { Collaboration } from "@/types/collaboration";
-import { statusLabels } from "@/contants/collaboration";
+import { statusLabels } from "@/constants/collaboration";
 
 type CollaborationProps = { collaboration: Collaboration; onClose: () => void };
 
