@@ -6,3 +6,5 @@ export type Collaboration = {
   description: string;
   status: CollaborationStatus;
 };
+
+export type StatusFilter = "all" | CollaborationStatus;

@@ -1,8 +1,8 @@
 import CollaborationCard from "./CollaborationCard";
 import { useState } from "react";
 import CollaborationDetails from "./CollaborationDetails";
-import SearchInput from "./SearchInput";
-import type { Collaboration, CollaborationStatus } from "@/types/collaboration";
+import CollaborationFilters from "./CollaborationFilters";
+import type { Collaboration, StatusFilter } from "@/types/collaboration";
 type CollaborationsProps = {
   collabs: Collaboration[];
 };
@@ -18,7 +18,6 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
     setSelectedId(null);
   }
   const [searchText, setSearchText] = useState<string>("");
-  type StatusFilter = "all" | CollaborationStatus;
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const filteredCollabs = collabs.filter((collab) => {
     return (
@@ -29,20 +28,21 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
       (statusFilter === "all" || collab.status === statusFilter)
     );
   });
+  const handleClearFilters = () => {
+    setSearchText("");
+    setStatusFilter("all");
+  };
+  const hasActiveFilters = searchText !== "" || statusFilter !== "all";
   return (
     <>
-      <SearchInput value={searchText} onChange={setSearchText} />
-      <select
-        value={statusFilter}
-        onChange={(event) => {
-          setStatusFilter(event.target.value as StatusFilter);
-        }}
-      >
-        <option value="all">All</option>
-        <option value="open">Open</option>
-        <option value="looking">Looking for collaborations</option>
-        <option value="closed">Closed</option>
-      </select>
+      <CollaborationFilters
+        searchText={searchText}
+        onSearchChange={setSearchText}
+        statusFilter={statusFilter}
+        onStatusChange={setStatusFilter}
+        onClearFilters={handleClearFilters}
+        hasActiveFilters={hasActiveFilters}
+      />
       {collabs.length === 0 && <p>No Collaborations Found.</p>}
       {filteredCollabs.map((collab) => {
         return (
