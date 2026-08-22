@@ -1,22 +1,26 @@
-import type { StatusFilter } from "@/types/collaboration";
+import type { SortOrder, StatusFilter } from "@/types/collaboration";
 import SearchInput from "./SearchInput";
-type CollaborationFiltersProps = {
+type CollaborationControlsProps = {
   searchText: string;
   onSearchChange: (value: string) => void;
   statusFilter: StatusFilter;
   onStatusChange: (value: StatusFilter) => void;
   onClearFilters: () => void;
   hasActiveFilters: boolean;
+  sortOrder: SortOrder;
+  onSortChange: (value: SortOrder) => void;
 };
 
-function CollaborationFilters({
+function CollaborationControls({
   searchText,
   onSearchChange,
   statusFilter,
   onStatusChange,
   onClearFilters,
   hasActiveFilters,
-}: CollaborationFiltersProps) {
+  sortOrder,
+  onSortChange,
+}: CollaborationControlsProps) {
   return (
     <>
       <SearchInput value={searchText} onChange={onSearchChange} />
@@ -34,7 +38,14 @@ function CollaborationFilters({
       {hasActiveFilters && (
         <button onClick={onClearFilters}>Clear Filters</button>
       )}
+      <select
+        value={sortOrder}
+        onChange={(event) => onSortChange(event.target.value as SortOrder)}
+      >
+        <option value="title-asc">A-Z</option>
+        <option value="title-desc">Z-A</option>
+      </select>
     </>
   );
 }
-export default CollaborationFilters;
+export default CollaborationControls;

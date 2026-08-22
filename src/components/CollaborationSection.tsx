@@ -1,8 +1,12 @@
 import CollaborationCard from "./CollaborationCard";
 import { useState } from "react";
 import CollaborationDetails from "./CollaborationDetails";
-import CollaborationFilters from "./CollaborationFilters";
-import type { Collaboration, StatusFilter } from "@/types/collaboration";
+import CollaborationControls from "./CollaborationControls";
+import type {
+  Collaboration,
+  StatusFilter,
+  SortOrder,
+} from "@/types/collaboration";
 type CollaborationsProps = {
   collabs: Collaboration[];
 };
@@ -19,6 +23,7 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   }
   const [searchText, setSearchText] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("title-asc");
   const filteredCollabs = collabs.filter((collab) => {
     return (
       collab.title
@@ -28,6 +33,14 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
       (statusFilter === "all" || collab.status === statusFilter)
     );
   });
+  const sortedCollabs = [...filteredCollabs];
+  sortedCollabs.sort((a, b) => {
+    if (sortOrder === "title-asc") {
+      return a.title.localeCompare(b.title);
+    } else {
+      return b.title.localeCompare(a.title);
+    }
+  });
   const handleClearFilters = () => {
     setSearchText("");
     setStatusFilter("all");
@@ -35,16 +48,18 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   const hasActiveFilters = searchText !== "" || statusFilter !== "all";
   return (
     <>
-      <CollaborationFilters
+      <CollaborationControls
         searchText={searchText}
         onSearchChange={setSearchText}
         statusFilter={statusFilter}
         onStatusChange={setStatusFilter}
         onClearFilters={handleClearFilters}
         hasActiveFilters={hasActiveFilters}
+        sortOrder={sortOrder}
+        onSortChange={setSortOrder}
       />
       {collabs.length === 0 && <p>No Collaborations Found.</p>}
-      {filteredCollabs.map((collab) => {
+      {sortedCollabs.map((collab) => {
         return (
           <CollaborationCard
             key={collab.id}

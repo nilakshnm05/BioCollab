@@ -8,3 +8,5 @@ export type Collaboration = {
 };
 
 export type StatusFilter = "all" | CollaborationStatus;
+
+export type SortOrder = "title-asc" | "title-desc";
