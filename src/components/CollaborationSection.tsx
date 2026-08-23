@@ -1,7 +1,8 @@
-import CollaborationCard from "./CollaborationCard";
 import { useState } from "react";
 import CollaborationDetails from "./CollaborationDetails";
 import CollaborationControls from "./CollaborationControls";
+import CollaborationHeader from "./CollaborationHeader";
+import CollaborationList from "./CollaborationList";
 import type {
   Collaboration,
   StatusFilter,
@@ -47,7 +48,12 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   };
   const hasActiveFilters = searchText !== "" || statusFilter !== "all";
   return (
-    <>
+    <div className="mx-auto max-w-5xl px-6">
+      <CollaborationHeader
+        title="Discover Collaborations"
+        description="Find researchers and opportunities relevant to your work."
+      />
+      <div className="flex flex-col gap-5">
       <CollaborationControls
         searchText={searchText}
         onSearchChange={setSearchText}
@@ -59,21 +65,11 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
         onSortChange={setSortOrder}
       />
       {collabs.length === 0 && <p>No Collaborations Found.</p>}
-      {sortedCollabs.map((collab) => {
-        return (
-          <CollaborationCard
-            key={collab.id}
-            id={collab.id}
-            title={collab.title}
-            description={collab.description}
-            status={collab.status}
-            onView={handleView}
-          />
-        );
-      })}
+      <CollaborationList collabs={sortedCollabs} onView={handleView} />
       {collabs.length > 0 && filteredCollabs.length === 0 && (
         <p>No collaborations match your filters.</p>
       )}
+      </div>
       {selectedCollaboration && (
         <>
           <CollaborationDetails
@@ -82,7 +78,7 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
           />
         </>
       )}
-    </>
+    </div>
   );
 }
 export default CollaborationSection;
