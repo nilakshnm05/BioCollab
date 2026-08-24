@@ -48,7 +48,7 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   };
   const hasActiveFilters = searchText !== "" || statusFilter !== "all";
   return (
-    <div className="mx-auto max-w-5xl px-6">
+    <div className="mx-auto max-w-5xl px-6 bg-gray-50 py-8">
       <CollaborationHeader
         title="Discover Collaborations"
         description="Find researchers and opportunities relevant to your work."

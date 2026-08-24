@@ -5,6 +5,8 @@ export type Collaboration = {
   title: string;
   description: string;
   status: CollaborationStatus;
+  expertise: string[];
+  researchAreas: string[];
 };
 
 export type StatusFilter = "all" | CollaborationStatus;
