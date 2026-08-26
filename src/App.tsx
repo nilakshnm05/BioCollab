@@ -1,53 +1,43 @@
-import { useState } from "react";
-import Hero from "./components/Hero";
-import StatusPanel from "./components/StatusPanel";
-import CollaborationSection from "./components/CollaborationSection";
-import type { Collaboration } from "@/types/collaboration";
+import LandingPage from "./pages/LandingPage";
+// import CollaborationSection from "./components/CollaborationSection";
+// import type { Collaboration } from "@/types/collaboration";
 
-const collaborations: Collaboration[] = [
-  {
-    id: 1,
-    title: "AI-Assisted Drug Discovery",
-    description:
-      "Looking for collaborators to develop machine learning approaches for identifying promising drug candidates.",
-    status: "open",
-    expertise: ["Machine Learning", "Bioinformatics", "Python"],
-    researchAreas: ["Drug Discovery", "Computational Biology"],
-  },
-  {
-    id: 2,
-    title: "AI Diagnostics for Rare Diseases",
-    description:
-      "Seeking researchers interested in developing AI models for earlier detection and classification of rare diseases.",
-    status: "looking",
-    expertise: ["Deep Learning", "Medical Imaging", "Computer Vision"],
-    researchAreas: ["Diagnostics", "Rare Diseases", "Medical AI"],
-  },
-  {
-    id: 3,
-    title: "Genomics Data Analysis",
-    description:
-      "Collaboration opportunity focused on scalable analysis of genomic datasets and identifying clinically relevant patterns.",
-    status: "closed",
-    expertise: ["Genomics", "Data Science", "Statistics"],
-    researchAreas: ["Genomics", "Precision Medicine", "Bioinformatics"],
-  },
-];
+// const collaborations: Collaboration[] = [
+//   {
+//     id: 1,
+//     title: "AI-Assisted Drug Discovery",
+//     description:
+//       "Looking for collaborators to develop machine learning approaches for identifying promising drug candidates.",
+//     status: "open",
+//     expertise: ["Machine Learning", "Bioinformatics", "Python"],
+//     researchAreas: ["Drug Discovery", "Computational Biology"],
+//   },
+//   {
+//     id: 2,
+//     title: "AI Diagnostics for Rare Diseases",
+//     description:
+//       "Seeking researchers interested in developing AI models for earlier detection and classification of rare diseases.",
+//     status: "looking",
+//     expertise: ["Deep Learning", "Medical Imaging", "Computer Vision"],
+//     researchAreas: ["Diagnostics", "Rare Diseases", "Medical AI"],
+//   },
+//   {
+//     id: 3,
+//     title: "Genomics Data Analysis",
+//     description:
+//       "Collaboration opportunity focused on scalable analysis of genomic datasets and identifying clinically relevant patterns.",
+//     status: "closed",
+//     expertise: ["Genomics", "Data Science", "Statistics"],
+//     researchAreas: ["Genomics", "Precision Medicine", "Bioinformatics"],
+//   },
+// ];
 
 function App() {
-  const [isExploring, setIsExploring] = useState(false);
-  function handleExplore() {
-    setIsExploring(true);
-  }
   return (
     <>
-      <Hero
-        title="BioCollab"
-        description="Healthcare & Biotech Collaboration Platform."
-        updateState={handleExplore}
-      />
-      <StatusPanel exploring={isExploring} />
-      <CollaborationSection collabs={collaborations} />
+      <LandingPage />
+      
+      {/* <CollaborationSection collabs={collaborations} /> */}
     </>
   );
 }

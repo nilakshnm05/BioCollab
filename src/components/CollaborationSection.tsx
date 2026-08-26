@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CollaborationDetails from "./CollaborationDetails";
 import CollaborationControls from "./CollaborationControls";
 import CollaborationHeader from "./CollaborationHeader";
@@ -54,21 +54,21 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
         description="Find researchers and opportunities relevant to your work."
       />
       <div className="flex flex-col gap-5">
-      <CollaborationControls
-        searchText={searchText}
-        onSearchChange={setSearchText}
-        statusFilter={statusFilter}
-        onStatusChange={setStatusFilter}
-        onClearFilters={handleClearFilters}
-        hasActiveFilters={hasActiveFilters}
-        sortOrder={sortOrder}
-        onSortChange={setSortOrder}
-      />
-      {collabs.length === 0 && <p>No Collaborations Found.</p>}
-      <CollaborationList collabs={sortedCollabs} onView={handleView} />
-      {collabs.length > 0 && filteredCollabs.length === 0 && (
-        <p>No collaborations match your filters.</p>
-      )}
+        <CollaborationControls
+          searchText={searchText}
+          onSearchChange={setSearchText}
+          statusFilter={statusFilter}
+          onStatusChange={setStatusFilter}
+          onClearFilters={handleClearFilters}
+          hasActiveFilters={hasActiveFilters}
+          sortOrder={sortOrder}
+          onSortChange={setSortOrder}
+        />
+        {collabs.length === 0 && <p>No Collaborations Found.</p>}
+        <CollaborationList collabs={sortedCollabs} onView={handleView} />
+        {collabs.length > 0 && filteredCollabs.length === 0 && (
+          <p>No collaborations match your filters.</p>
+        )}
       </div>
       {selectedCollaboration && (
         <>
