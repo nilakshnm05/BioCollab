@@ -1,15 +1,19 @@
+import { Users, BookOpen, Sparkles } from "lucide-react";
 const capabilities = [
   {
     title: "Find collaborators",
     description: "Find people and opportunities to work together.",
+    icon: Users,
   },
   {
     title: "Explore research",
     description: "Discover research relevant to your work.",
+    icon: BookOpen,
   },
   {
     title: "Use AI tools",
     description: "Use AI to make scientific information easier to explore.",
+    icon: Sparkles,
   },
 ];
 function CoreCapabilities() {
@@ -32,11 +36,13 @@ function CoreCapabilities() {
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {capabilities.map((capability) => {
+            const Icon = capability.icon;
             return (
               <div
                 key={capability.title}
-                className="rounded-xl border border-border bg-background p-6"
+                className="rounded-xl border border-border bg-background p-6  transition-colors hover:border-primary"
               >
+                <Icon className="h-6 w-6 text-primary" />
                 <h3 className="text-lg font-semibold text-foreground">
                   {capability.title}
                 </h3>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import CollaborationDetails from "./CollaborationDetails";
 import CollaborationControls from "./CollaborationControls";
 import CollaborationHeader from "./CollaborationHeader";
