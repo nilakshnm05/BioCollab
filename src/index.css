@@ -7,11 +7,13 @@
   --primary: #0f766e;
   --primary-foreground: #ffffff;
 
-  --border: #cbd5e1;
+  --border: #c3c9d3;
 
   --accent: #ccfbf1;
 
   --muted-foreground: #64748b;
+
+  --destructive: #dc2626;
 }
 
 @theme inline {
@@ -25,4 +27,6 @@
 
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
+
+  --color-destructive: var(--destructive);
 }

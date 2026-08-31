@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function FinalCTA() {
   return (
     <section className="py-20 bg-accent/30">
@@ -16,12 +18,12 @@ function FinalCTA() {
             in one place.
           </p>
 
-          <a
-            href="/get-started"
+          <Link
+            to="/get-started"
             className="mt-8 inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Get Started
-          </a>
+          </Link>
         </div>
       </div>
     </section>

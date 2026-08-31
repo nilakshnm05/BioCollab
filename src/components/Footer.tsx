@@ -1,41 +1,43 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
-    <footer className="bg-background">
-      <div className="border-t border-border mx-auto max-w-7xl px-6 py-12 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+    <footer className="bg-background border-t border-border">
+      <div className="mx-auto max-w-7xl px-6 py-12 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
         <div>
-          <a href="/" className="font-semibold text-foreground">
+          <Link to="/" className="font-semibold text-foreground">
             BioCollab
-          </a>
+          </Link>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
             Healthcare & biotech collaboration platform.
           </p>
         </div>
 
         <nav aria-label="Footer navigation" className="flex flex-col gap-3">
-          <a
-            href="/discover"
+          <Link
+            to="/discover"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             Discover
-          </a>
-          <a
-            href="/research"
+          </Link>
+          <Link
+            to="/research"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             Research
-          </a>
-          <a
-            href="/how-it-works"
+          </Link>
+          <Link
+            to="/how-it-works"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             How It Works
-          </a>
-          <a
-            href="/about"
+          </Link>
+          <Link
+            to="/about"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             About
-          </a>
+          </Link>
         </nav>
       </div>
 

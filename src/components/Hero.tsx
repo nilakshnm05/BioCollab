@@ -1,4 +1,6 @@
 import ProductPreview from "./ProductPreview";
+import { Link } from "react-router-dom";
+
 function Hero() {
   return (
     <section>
@@ -16,18 +18,18 @@ function Hero() {
             use AI-assisted tools to navigate scientific knowledge.
           </p>
           <div className=" mt-4 flex flex-col gap-4 md:flex-row">
-            <a
-              href="/discover"
+            <Link
+              to="/discover"
               className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Explore Collaborations
-            </a>
-            <a
-              href="/research"
+            </Link>
+            <Link
+              to="/research"
               className="inline-flex items-center justify-center rounded-md border border-border bg-background px-6 py-3 font-medium text-foreground hover:bg-accent transition-colors"
             >
               Explore Research
-            </a>
+            </Link>
           </div>
         </div>
         <div className="flex-1">

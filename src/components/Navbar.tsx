@@ -1,46 +1,48 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <nav className="relative flex items-center justify-between max-w-7xl mx-auto px-6 py-4">
       <div>
-        <a href="/" className="font-semibold">
+        <Link to="/" className="font-semibold">
           BioCollab
-        </a>
+        </Link>
       </div>
       <div className="hidden md:flex items-center gap-6">
-        <a
-          href="/discover"
+        <Link
+          to="/discover"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           Discover
-        </a>
-        <a
-          href="/research"
+        </Link>
+        <Link
+          to="/research"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           Research
-        </a>
-        <a
-          href="/how-it-works"
+        </Link>
+        <Link
+          to="/how-it-works"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           How It Works
-        </a>
-        <a
-          href="/about"
+        </Link>
+        <Link
+          to="/about"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           About
-        </a>
+        </Link>
       </div>
       <div className="hidden md:block">
-        <a
-          href="/get-started"
+        <Link
+          to="/get-started"
           className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
         >
           Get Started
-        </a>
+        </Link>
       </div>
       <button
         type="button"
@@ -54,36 +56,36 @@ function Navbar() {
       </button>
       {isMenuOpen && (
         <div className="absolute top-full left-0 w-full border-t border-border bg-background p-6 flex flex-col gap-4 md:hidden">
-          <a
-            href="/discover"
+          <Link
+            to="/discover"
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Discover
-          </a>
-          <a
-            href="/research"
+          </Link>
+          <Link
+            to="/research"
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Research
-          </a>
-          <a
-            href="/how-it-works"
+          </Link>
+          <Link
+            to="/how-it-works"
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             How It Works
-          </a>
-          <a
-            href="/about"
+          </Link>
+          <Link
+            to="/about"
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             About
-          </a>
-          <a
-            href="/get-started"
+          </Link>
+          <Link
+            to="/get-started"
             className="w-full inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
           >
             Get Started
-          </a>
+          </Link>
         </div>
       )}
     </nav>
