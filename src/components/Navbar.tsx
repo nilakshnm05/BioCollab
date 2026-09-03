@@ -24,6 +24,12 @@ function Navbar() {
           Research
         </Link>
         <Link
+          to="/workspace"
+          className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          WorkSpace
+        </Link>
+        <Link
           to="/how-it-works"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
@@ -67,6 +73,12 @@ function Navbar() {
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Research
+          </Link>
+          <Link
+            to="/workspace"
+            className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            WorkSpace
           </Link>
           <Link
             to="/how-it-works"

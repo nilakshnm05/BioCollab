@@ -19,8 +19,8 @@ function ResearchCard({ research }: ResearchCardProps) {
         <div className="flex flex-wrap">
           {research.authors.map((author, index) => (
             <span key={author} className="text-sm text-muted-foreground">
-              {index > 0 && ` · `}
-              {author}
+              {index > 0 && " · "}
+              {author}&nbsp;
             </span>
           ))}
         </div>

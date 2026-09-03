@@ -10,3 +10,7 @@ export type Research = {
   researchArea: string | null;
   openAccess: boolean;
 };
+
+export type SavedResearch = Research & {
+  savedAt: string;
+};
