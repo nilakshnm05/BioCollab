@@ -25,14 +25,12 @@ function WorkspacePage() {
   return (
     <div className="grid grid-rows-[auto_1fr] min-h-screen">
       <WorkspaceHeader />
-      <div className="grid grid-cols-[240px_1fr]">
+      <div className="grid grid-cols-1 md:grid-cols-[240px_1fr]">
         <WorkspaceSidebar
           activeView={activeView}
           setActiveView={setActiveView}
         />
-        <main>
-          {renderActiveView(activeView)}
-        </main>
+        <main>{renderActiveView(activeView)}</main>
       </div>
     </div>
   );
