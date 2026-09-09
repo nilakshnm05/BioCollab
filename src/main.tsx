@@ -4,14 +4,17 @@ import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CollaborationProvider } from "@/context/CollaborationContext.tsx";
 
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <CollaborationProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </CollaborationProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );

@@ -1,5 +1,11 @@
 export type CollaborationStatus = "open" | "looking" | "closed";
 
+export type CollaborationType =
+  | "research-partner"
+  | "technical-contributor"
+  | "data-analysis"
+  | "other";
+  
 export type Collaboration = {
   id: number;
   title: string;
@@ -7,6 +13,7 @@ export type Collaboration = {
   status: CollaborationStatus;
   expertise: string[];
   researchAreas: string[];
+  collaborationType: CollaborationType;
 };
 
 export type StatusFilter = "all" | CollaborationStatus;

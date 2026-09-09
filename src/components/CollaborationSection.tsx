@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import CollaborationDetails from "./CollaborationDetails";
 import CollaborationControls from "./CollaborationControls";
 import CollaborationHeader from "./CollaborationHeader";
@@ -8,9 +8,13 @@ import type {
   StatusFilter,
   SortOrder,
 } from "@/types/collaboration";
+import type { CollaborationRequest } from "@/types/collaborationRequest";
+import { useCollaboration } from "@/context/CollaborationContext";
+
 type CollaborationsProps = {
   collabs: Collaboration[];
 };
+
 function CollaborationSection({ collabs }: CollaborationsProps) {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   function handleView(id: number) {
@@ -22,6 +26,26 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   function handleClose() {
     setSelectedId(null);
   }
+  const { requests, addRequest } = useCollaboration();
+  function handleExpressInterest(collaborationId: number) {
+    const newRequest: CollaborationRequest = {
+      id: Date.now(),
+      collaborationId,
+      memberId: 1,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    };
+
+    addRequest(newRequest);
+    console.log(newRequest);
+  }
+
+  const existingRequest = selectedCollaboration
+    ? requests.find(
+        (request) => request.collaborationId === selectedCollaboration.id
+      )
+    : undefined;
+
   const [searchText, setSearchText] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("title-asc");
@@ -45,6 +69,7 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   const handleClearFilters = () => {
     setSearchText("");
     setStatusFilter("all");
+    setSortOrder("title-asc");
   };
   const hasActiveFilters = searchText !== "" || statusFilter !== "all";
   return (
@@ -75,6 +100,8 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
           <CollaborationDetails
             collaboration={selectedCollaboration}
             onClose={handleClose}
+            onExpressInterest={handleExpressInterest}
+            existingRequest={existingRequest}
           />
         </>
       )}

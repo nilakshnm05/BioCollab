@@ -2,16 +2,13 @@ import type { Collaboration } from "@/types/collaboration";
 import { collaborations } from "@/data/collaborations";
 import { statusLabels, statusStyles } from "@/constants/collaboration";
 import { Link } from "react-router-dom";
+import { useCollaboration } from "@/context/CollaborationContext";
 
 const activeCollaborations: Collaboration[] = [
   collaborations[0],
   collaborations[1],
 ];
-const collaborationSummary = {
-  activeCollaborations: 2,
-  pendingRequests: 1,
-  savedResearchers: 5,
-};
+
 const collaborationActivity = [
   {
     id: "activity-1",
@@ -31,6 +28,14 @@ const collaborationActivity = [
 ];
 
 function CollaborationView() {
+  const { requests } = useCollaboration();
+
+  const collaborationSummary = {
+    activeCollaborations: 2,
+    pendingRequests: requests.length,
+    savedResearchers: 5,
+  };
+
   return (
     <div className="space-y-6 p-6">
       <header>
@@ -87,7 +92,9 @@ function CollaborationView() {
                   </p>
                 </div>
 
-                <span className={`self-start rounded-full px-2 py-1 text-xs ${statusStyles[collaboration.status]}`}>
+                <span
+                  className={`self-start rounded-full px-2 py-1 text-xs ${statusStyles[collaboration.status]}`}
+                >
                   {statusLabels[collaboration.status]}
                 </span>
               </div>
