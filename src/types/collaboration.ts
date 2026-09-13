@@ -14,6 +14,7 @@ export type Collaboration = {
   expertise: string[];
   researchAreas: string[];
   collaborationType: CollaborationType;
+  createdByMemberId: number;
 };
 
 export type StatusFilter = "all" | CollaborationStatus;

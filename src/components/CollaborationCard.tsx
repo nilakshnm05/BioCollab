@@ -1,3 +1,9 @@
+import type {
+  CollaborationStatus,
+  CollaborationType,
+} from "@/types/collaboration";
+import { statusLabels, statusStyles } from "@/constants/collaboration";
+
 type CollaborationCardProps = {
   id: number;
   title: string;
@@ -5,10 +11,10 @@ type CollaborationCardProps = {
   status: CollaborationStatus;
   expertise: string[];
   researchAreas: string[];
+  collaborationType: CollaborationType;
   onView: (id: number) => void;
 };
-import type { CollaborationStatus } from "@/types/collaboration";
-import { statusLabels, statusStyles } from "@/constants/collaboration";
+
 function CollaborationCard({
   id,
   title,
@@ -16,6 +22,7 @@ function CollaborationCard({
   status,
   expertise,
   researchAreas,
+  collaborationType,
   onView,
 }: CollaborationCardProps) {
   return (
@@ -54,6 +61,15 @@ function CollaborationCard({
             </p>
           );
         })}
+      </div>
+      <div className="flex flex-wrap gap-3">
+        <p className="text-sm font-semibold text-gray-600">
+          Collaboration Type:
+        </p>
+
+        <p className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+          {collaborationType}
+        </p>
       </div>
       <button
         onClick={() => onView(id)}

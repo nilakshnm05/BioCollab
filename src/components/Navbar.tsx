@@ -23,26 +23,21 @@ function Navbar() {
         >
           Research
         </Link>
-        <Link
-          to="/workspace"
-          className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          WorkSpace
-        </Link>
-        <Link
-          to="/how-it-works"
+
+        <a
+          href="#how-it-works"
           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           How It Works
-        </Link>
-        <Link
-          to="/about"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          About
-        </Link>
+        </a>
       </div>
-      <div className="hidden md:block">
+      <div className="hidden md:flex items-center gap-4">
+        <Link
+          to="/login"
+          className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Log in
+        </Link>
         <Link
           to="/get-started"
           className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
@@ -74,23 +69,18 @@ function Navbar() {
           >
             Research
           </Link>
-          <Link
-            to="/workspace"
-            className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            WorkSpace
-          </Link>
-          <Link
-            to="/how-it-works"
+
+          <a
+            href="#how-it-works"
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             How It Works
-          </Link>
+          </a>
           <Link
-            to="/about"
+            to="/login"
             className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            About
+            Log in
           </Link>
           <Link
             to="/get-started"

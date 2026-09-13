@@ -7,6 +7,7 @@ type CollaborationProps = {
   onClose: () => void;
   onExpressInterest: (collaborationId: number) => void;
   existingRequest: CollaborationRequest | undefined;
+  isOwner: boolean;
 };
 
 function CollaborationDetails({
@@ -14,6 +15,7 @@ function CollaborationDetails({
   onClose,
   onExpressInterest,
   existingRequest,
+  isOwner,
 }: CollaborationProps) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center px-4">
@@ -27,6 +29,15 @@ function CollaborationDetails({
           </span>
         </div>
         <p className="text-sm text-gray-600">{collaboration.description}</p>
+        <div className="flex flex-wrap gap-3">
+          <p className="text-sm font-semibold text-gray-600">
+            Collaboration Type:
+          </p>
+
+          <p className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+            {collaboration.collaborationType}
+          </p>
+        </div>
         <div className="flex flex-wrap gap-3">
           <p className="text-sm font-semibold text-gray-600">Expertise:</p>
           {collaboration.expertise.map((element) => {
@@ -53,26 +64,43 @@ function CollaborationDetails({
             );
           })}
         </div>
-        <button
-          onClick={onClose}
-          className="self-end px-4 py-2 rounded-lg text-sm font-medium text-gray-700 bg-gray-200 hover:bg-gray-300"
-        >
-          Close
-        </button>
-        {!existingRequest && collaboration.status !== "closed" && (
-          <button onClick={() => onExpressInterest(collaboration.id)}>
-            Express Interest
+        <div className="mt-2 flex items-center justify-between border-t pt-4">
+          <div>
+            {!existingRequest && collaboration.status !== "closed" && !isOwner && (
+              <button
+                onClick={() => onExpressInterest(collaboration.id)}
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                Express Interest
+              </button>
+            )}
+
+            {existingRequest?.status === "pending" && (
+              <p className="text-sm font-medium text-muted-foreground">
+                Interest Sent — Pending
+              </p>
+            )}
+
+            {existingRequest?.status === "accepted" && (
+              <p className="text-sm font-medium text-primary">
+                Collaboration Active
+              </p>
+            )}
+
+            {existingRequest?.status === "rejected" && (
+              <p className="text-sm font-medium text-destructive">
+                Request Rejected
+              </p>
+            )}
+          </div>
+
+          <button
+            onClick={onClose}
+            className="rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+          >
+            Close
           </button>
-        )}
-        {existingRequest?.status === "pending" && (
-          <p>Interest Sent - Pending</p>
-        )}
-        {existingRequest?.status === "accepted" && (
-          <p>Collaboration Active</p>
-        )}
-        {existingRequest?.status === "rejected" && (
-          <p>Request Rejected</p>
-        )}
+        </div>
       </div>
     </div>
   );

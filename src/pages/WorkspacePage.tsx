@@ -14,8 +14,8 @@ function WorkspacePage() {
     switch (activeView) {
       case "overview":
         return <OverviewView setActiveView={setActiveView} />;
-        case "collaboration":
-          return <CollaborationView />;
+      case "collaboration":
+        return <CollaborationView />;
       case "research":
         return <ResearchView />;
       case "ai":

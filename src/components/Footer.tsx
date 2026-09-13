@@ -9,7 +9,7 @@ function Footer() {
             BioCollab
           </Link>
           <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Healthcare & biotech collaboration platform.
+            A workspace for scientific collaboration and research.
           </p>
         </div>
 
@@ -26,18 +26,13 @@ function Footer() {
           >
             Research
           </Link>
-          <Link
-            to="/how-it-works"
+          <a
+            href="#how-it-works"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             How It Works
-          </Link>
-          <Link
-            to="/about"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            About
-          </Link>
+          </a>
+         
         </nav>
       </div>
 

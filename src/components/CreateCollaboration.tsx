@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { collaborationSchema } from "@/schemas/CollaborationSchema";
 import type { CollaborationFormData } from "@/schemas/CollaborationSchema";
 import type { Collaboration } from "@/types/collaboration";
-import { useState } from "react";
 import { z } from "zod";
+import { useAuth } from "@/context/AuthContext";
 
 type CreateCollaborationProps = {
   onCreate: (newCollab: Collaboration) => void;
@@ -46,8 +46,11 @@ function CreateCollaboration({ onCreate }: CreateCollaborationProps) {
     control,
     name: "expertise",
   });
-  const [isPublished, setIsPublished] = useState(false);
+  const { currentMember } = useAuth();
   const onSubmit = (data: CollaborationFormData) => {
+    if (!currentMember) {
+      return;
+    }
     const collaboration: Collaboration = {
       id: Date.now(),
       title: data.title,
@@ -56,9 +59,9 @@ function CreateCollaboration({ onCreate }: CreateCollaborationProps) {
       expertise: data.expertise.map((item) => item.value),
       collaborationType: data.collaborationType,
       status: data.status,
+      createdByMemberId: currentMember.id,
     };
     onCreate(collaboration);
-    setIsPublished(true);
   };
 
   return (
@@ -282,12 +285,6 @@ function CreateCollaboration({ onCreate }: CreateCollaborationProps) {
         >
           Publish Collaboration
         </button>
-
-        {isPublished && (
-          <p className="mt-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-            Collaboration published successfully!
-          </p>
-        )}
       </div>
     </form>
   );

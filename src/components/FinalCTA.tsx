@@ -6,16 +6,16 @@ function FinalCTA() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-base font-medium text-primary">
-            Get started with BioCollab
+            Start exploring BioCollab
           </p>
 
           <h2 className="mt-2 text-3xl font-bold leading-tight text-foreground md:text-4xl">
-            Ready to make research easier?
+            Your next research connection could start here.
           </h2>
 
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            Find research, discover collaborators, and explore new possibilities
-            in one place.
+            Explore opportunities, follow the research that matters to you, and
+            see where your work can go next.
           </p>
 
           <Link

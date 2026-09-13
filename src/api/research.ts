@@ -67,11 +67,16 @@ function transformResearch(work: OpenAlexWork): Research {
   };
 }
 
-export async function fetchResearch(query: string, page: number): Promise<Research[]> {
+export async function fetchResearch(
+  query: string,
+  page: number,
+  signal: AbortSignal,
+): Promise<Research[]> {
   const apiKey = import.meta.env.VITE_OPENALEX_API_KEY;
   const encodedQuery = encodeURIComponent(query);
   const response = await fetch(
     `https://api.openalex.org/works?search=${encodedQuery}&per_page=10&page=${page}&api_key=${apiKey}`,
+    { signal },
   );
   if (!response.ok) {
     throw new Error(`Failed to fetch research: ${response.status}`);

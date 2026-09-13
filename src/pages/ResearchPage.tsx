@@ -11,7 +11,7 @@ function ResearchPage() {
 
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["research", searchedQuery],
-    queryFn: ({ pageParam }) => fetchResearch(searchedQuery, pageParam),
+    queryFn: ({ pageParam, signal }) => fetchResearch(searchedQuery, pageParam, signal),
     enabled: searchedQuery.trim() !== "",
     initialPageParam: 1,
     getNextPageParam: (lastPage, _allPages, lastPageParam) => {

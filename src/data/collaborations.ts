@@ -9,6 +9,7 @@ export const collaborations: Collaboration[] = [
     expertise: ["Machine Learning", "Bioinformatics", "Python"],
     researchAreas: ["Drug Discovery", "Computational Biology"],
     collaborationType: "research-partner",
+    createdByMemberId: 1,
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ export const collaborations: Collaboration[] = [
     expertise: ["Deep Learning", "Medical Imaging", "Computer Vision"],
     researchAreas: ["Diagnostics", "Rare Diseases", "Medical AI"],
     collaborationType: "technical-contributor",
+    createdByMemberId: 2,
   },
   {
     id: 3,
@@ -29,5 +31,6 @@ export const collaborations: Collaboration[] = [
     expertise: ["Genomics", "Data Science", "Statistics"],
     researchAreas: ["Genomics", "Precision Medicine", "Bioinformatics"],
     collaborationType: "data-analysis",
+    createdByMemberId: 1,
   },
 ];

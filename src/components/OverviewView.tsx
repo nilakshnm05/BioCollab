@@ -1,78 +1,19 @@
-import type { Research } from "@/types/research";
 import type { WorkspaceView } from "@/types/workspace";
+import { useCollaboration } from "@/context/CollaborationContext";
+import { useResearch } from "@/context/ResearchContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import {
+  getActiveCollaborations,
+  getIncomingPendingRequests,
+  getMyPendingRequests,
+  getRecentSavedResearch,
+} from "@/utils/workspaceSelectors";
 
 type OverviewViewProps = {
   setActiveView: (view: WorkspaceView) => void;
 };
 
-const summary = {
-  activeCollaborations: 4,
-  savedResearch: 12,
-  pendingActions: 3,
-};
-const recentResearch: Research[] = [
-  {
-    id: "research-1",
-    title:
-      "Artificial Intelligence in Clinical Research: Current Applications and Future Directions",
-    authors: ["Aarav Sharma", "Meera Patel"],
-    journal: "Journal of Biomedical Research",
-    publicationDate: "2026-08-28",
-    citedByCount: 42,
-    doi: null,
-    abstract: null,
-    researchArea: "Biomedical AI",
-    openAccess: true,
-  },
-  {
-    id: "research-2",
-    title: "Machine Learning Approaches for Early Disease Detection",
-    authors: ["Rohan Mehta", "Sarah Chen", "Daniel Wong"],
-    journal: "Nature Biomedical Engineering",
-    publicationDate: "2026-08-21",
-    citedByCount: 87,
-    doi: null,
-    abstract: null,
-    researchArea: "Machine Learning",
-    openAccess: true,
-  },
-  {
-    id: "research-3",
-    title: "Patient-Centered Evidence Synthesis Using Large Language Models",
-    authors: ["Ananya Kapoor", "James Wilson"],
-    journal: "NPJ Digital Medicine",
-    publicationDate: "2026-08-15",
-    citedByCount: 31,
-    doi: null,
-    abstract: null,
-    researchArea: "Clinical AI",
-    openAccess: false,
-  },
-];
-const collaborationActivity = [
-  {
-    id: "collab-1",
-    text: "Dr. Mehta accepted your collaboration request",
-    time: "2 hours ago",
-  },
-  {
-    id: "collab-2",
-    text: "New collaboration opportunity matches your research",
-    time: "Yesterday",
-  },
-];
-const aiActivity = [
-  {
-    id: "ai-1",
-    text: "AI Research Copilot summarized 5 papers",
-    time: "1 hour ago",
-  },
-  {
-    id: "ai-2",
-    text: "New evidence insight generated from your saved research",
-    time: "Yesterday",
-  },
-];
 const continueWorking: {
   view: WorkspaceView;
   title: string;
@@ -84,104 +25,215 @@ const continueWorking: {
 };
 
 function OverviewView({ setActiveView }: OverviewViewProps) {
+  const { requests, collaborations } = useCollaboration();
+  const { currentMember } = useAuth();
+  const { savedResearch } = useResearch();
+
+  const activeCollaborations = getActiveCollaborations(
+    collaborations,
+    requests,
+    currentMember,
+  );
+  const incomingPendingRequests = getIncomingPendingRequests(
+    collaborations,
+    requests,
+    currentMember,
+  );
+  const myPendingRequests = getMyPendingRequests(
+    collaborations,
+    requests,
+    currentMember,
+  );
+  const recentResearch = getRecentSavedResearch(savedResearch, 3);
+  const savedResearchCount = savedResearch.length;
+
   return (
     <div className="space-y-6 p-6">
       <header>
-        <h1 className="text-2xl font-semibold">Overview</h1>
+        <h1 className="text-2xl font-semibold">
+          Good Morning, {currentMember?.name}
+        </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Your research and collaboration activity at a glance.
+          Here's what's happening with your work.
         </p>
       </header>
       <div className="space-y-6">
         <section className="space-y-3">
           <h2>Summary</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-4">
+            <div className="rounded-lg border border-border bg-background p-4">
+              <p className="text-sm text-muted-foreground">Active Work</p>
+              <p className="mt-2 text-3xl font-semibold">
+                {activeCollaborations.length}
+              </p>
+            </div>
+
             <div className="rounded-lg border border-border bg-background p-4">
               <p className="text-sm text-muted-foreground">
-                Active Collaborations
+                Requests Need Action
               </p>
               <p className="mt-2 text-3xl font-semibold">
-                {summary.activeCollaborations}
+                {incomingPendingRequests.length}
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-border bg-background p-4">
+              <p className="text-sm text-muted-foreground">Pending Requests</p>
+              <p className="mt-2 text-3xl font-semibold">
+                {myPendingRequests.length}
               </p>
             </div>
 
             <div className="rounded-lg border border-border bg-background p-4">
               <p className="text-sm text-muted-foreground">Saved Research</p>
               <p className="mt-2 text-3xl font-semibold">
-                {summary.savedResearch}
-              </p>
-            </div>
-
-            <div className="rounded-lg border border-border bg-background p-4">
-              <p className="text-sm text-muted-foreground">Pending Actions</p>
-              <p className="mt-2 text-3xl font-semibold">
-                {summary.pendingActions}
+                {savedResearchCount}
               </p>
             </div>
           </div>
         </section>
+
+        <section className="space-y-3">
+          <h2>Active Work</h2>
+
+          {activeCollaborations.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              You don't have any active work yet.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {activeCollaborations.map((collaboration) => (
+                <article
+                  key={collaboration.id}
+                  className="rounded-lg border border-border bg-background p-4"
+                >
+                  <h3 className="font-medium">{collaboration.title}</h3>
+
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {collaboration.description}
+                  </p>
+
+                  <button
+                    className="mt-3 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90"
+                    onClick={() => setActiveView("collaboration")}
+                  >
+                    View Collaboration
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="space-y-3">
+          <h2>Needs Attention</h2>
+
+          {incomingPendingRequests.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              You're all caught up.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {incomingPendingRequests.map((item) => (
+                <article
+                  key={item.request.id}
+                  className="rounded-lg border border-border bg-background p-4"
+                >
+                  <h3 className="font-medium">{item.collaboration.title}</h3>
+
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    A member wants to collaborate on this project.
+                  </p>
+
+                  <button
+                    className="mt-3 text-sm font-medium text-primary hover:underline"
+                    onClick={() => setActiveView("collaboration")}
+                  >
+                    View Requests
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="space-y-3">
+          <h2>Pending Requests</h2>
+
+          {myPendingRequests.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              You don't have any pending requests.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {myPendingRequests.map(({ request, collaboration }) => (
+                <article
+                  key={request.id}
+                  className="rounded-lg border border-border bg-background p-4"
+                >
+                  <h3 className="font-medium">{collaboration.title}</h3>
+
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {collaboration.description}
+                  </p>
+
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Waiting for response
+                  </p>
+
+                  <button
+                    className="mt-3 text-sm font-medium text-primary hover:underline"
+                    onClick={() => setActiveView("collaboration")}
+                  >
+                    View Collaboration
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
         <section className="space-y-3">
           <h2>Recent Research</h2>
-          <div className="flex flex-col gap-3">
-            {recentResearch.map((research) => (
-              <article
-                key={research.id}
-                className="rounded-lg border border-border p-4"
-              >
-                <h3 className="font-medium">{research.title}</h3>
 
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {research.authors.join(", ")}
-                </p>
+          {savedResearchCount === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No saved research yet.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {recentResearch.map((research) => (
+                <article
+                  key={research.id}
+                  className="rounded-lg border border-border p-4"
+                >
+                  <h3 className="font-medium">{research.title}</h3>
 
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {research.journal} · {research.publicationDate.slice(0, 4)}
-                </p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {research.authors.join(", ")}
+                  </p>
 
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {research.researchArea} · {research.citedByCount} citations
-                </p>
-                <button className="mt-3 text-sm font-medium text-primary hover:underline">
-                  View Research
-                </button>
-              </article>
-            ))}
-          </div>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {research.journal} · {research.publicationDate.slice(0, 4)}
+                  </p>
+
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {research.researchArea} · {research.citedByCount} citations
+                  </p>
+                  <Link
+                    to="/research"
+                    className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+                  >
+                    Explore Research
+                  </Link>
+                </article>
+              ))}
+            </div>
+          )}
         </section>
+
         <section className="space-y-3">
-          <h2>Recent Collaboration Activity</h2>
-          <div className="flex flex-col gap-3">
-            {collaborationActivity.map((activity) => (
-              <article
-                key={activity.id}
-                className="rounded-lg border border-border p-4"
-              >
-                <p>{activity.text}</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {activity.time}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
-        <section className="space-y-3">
-          <h2>AI Activity</h2>
-          <div className="flex flex-col gap-3">
-            {aiActivity.map((activity) => (
-              <article
-                key={activity.id}
-                className="rounded-lg border border-border p-4"
-              >
-                <p>{activity.text}</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {activity.time}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
-        <section className="space-y-3">
-          <h2>Continue Working</h2>
+          <h2>Continue Your Work</h2>
 
           <div className="rounded-lg border border-border p-4">
             <p className="font-medium">{continueWorking.title}</p>

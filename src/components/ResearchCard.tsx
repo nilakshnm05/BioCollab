@@ -1,10 +1,21 @@
 import { Research } from "@/types/research";
+import { useResearch } from "@/context/ResearchContext";
 
 type ResearchCardProps = {
   research: Research;
 };
 
 function ResearchCard({ research }: ResearchCardProps) {
+  const { saveResearch, removeSavedResearch, isResearchSaved } = useResearch();
+
+  const saved = isResearchSaved(research.id);
+
+  const sourceUrl = research.doi
+    ? research.doi.startsWith("http")
+      ? research.doi
+      : `http://doi.org/${research.doi}`
+    : null;
+
   return (
     <article className="mt-10 rounded-xl border border-border bg-background p-6 shadow-sm transition-shadow hover:shadow-md">
       <header>
@@ -36,17 +47,30 @@ function ResearchCard({ research }: ResearchCardProps) {
           {research.abstract || "No abstract available for this paper."}
         </p>
       </div>
-      <footer className="mt-6 flex items-center justify-between border-t border-border pt-4">
-        {research.doi && (
-          <a
-            href={research.doi}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+      <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+        <div className="flex items-center gap-3">
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              View Paper
+            </a>
+          )}
+
+          <button
+            type="button"
+            onClick={() =>
+              saved ? removeSavedResearch(research.id) : saveResearch(research)
+            }
+            className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
           >
-            View Paper
-          </a>
-        )}
+            {saved ? "Saved" : "Save to Workspace"}
+          </button>
+        </div>
+
         {research.openAccess && (
           <span className="rounded-full bg-accent px-3 py-1 text-sm text-primary">
             Open Access

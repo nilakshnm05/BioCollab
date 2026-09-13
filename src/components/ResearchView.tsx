@@ -1,20 +1,9 @@
-import { savedResearch } from "@/data/savedResearch";
 import { Link } from "react-router-dom";
-
-const researchActivity = [
-  {
-    id: "activity-1",
-    text: 'You saved "Artificial Intelligence in Clinical Research"',
-    time: "Yesterday",
-  },
-  {
-    id: "activity-2",
-    text: 'You viewed "Machine Learning Approaches for Early Disease Detection"',
-    time: "2 days ago",
-  },
-];
+import { useResearch } from "@/context/ResearchContext";
 
 function ResearchView() {
+  const { savedResearch, removeSavedResearch } = useResearch();
+
   const savedResearchCount = savedResearch.length;
 
   return (
@@ -29,23 +18,11 @@ function ResearchView() {
       <section className="space-y-3">
         <h2>Summary</h2>
 
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid sm:grid-cols-1">
           <div className="rounded-lg border border-border bg-background p-4">
             <p className="text-sm text-muted-foreground">Saved Research</p>
 
             <p className="mt-2 text-3xl font-semibold">{savedResearchCount}</p>
-          </div>
-
-          <div className="rounded-lg border border-border bg-background p-4">
-            <p className="text-sm text-muted-foreground">Recently Viewed</p>
-
-            <p className="mt-2 text-3xl font-semibold">2</p>
-          </div>
-
-          <div className="rounded-lg border border-border bg-background p-4">
-            <p className="text-sm text-muted-foreground">Collections</p>
-
-            <p className="mt-2 text-3xl font-semibold">1</p>
           </div>
         </div>
       </section>
@@ -53,47 +30,42 @@ function ResearchView() {
       <section className="space-y-3">
         <h2>Saved Research</h2>
 
-        <div className="flex flex-col gap-3">
-          {savedResearch.map((research) => (
-            <article
-              key={research.id}
-              className="rounded-lg border border-border bg-background p-4"
-            >
-              <h3 className="font-medium">{research.title}</h3>
+        {savedResearch.length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            No saved research yet.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {savedResearch.map((research) => (
+              <article
+                key={research.id}
+                className="rounded-lg border border-border bg-background p-4"
+              >
+                <h3 className="font-medium">{research.title}</h3>
 
-              <p className="mt-1 text-sm text-muted-foreground">
-                {research.authors.join(", ")}
-              </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {research.authors.join(", ")}
+                </p>
 
-              <p className="mt-1 text-sm text-muted-foreground">
-                {research.journal} · {research.publicationDate.slice(0, 4)}
-              </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {research.journal} · {research.publicationDate.slice(0, 4)}
+                </p>
 
-              <p className="mt-2 text-sm text-muted-foreground">
-                {research.researchArea} · {research.citedByCount} citations
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {research.researchArea} · {research.citedByCount} citations
+                </p>
 
-      <section className="space-y-3">
-        <h2>Recent Research Activity</h2>
-
-        <div className="flex flex-col gap-3">
-          {researchActivity.map((activity) => (
-            <article
-              key={activity.id}
-              className="rounded-lg border border-border bg-background p-4"
-            >
-              <p>{activity.text}</p>
-
-              <p className="mt-1 text-sm text-muted-foreground">
-                {activity.time}
-              </p>
-            </article>
-          ))}
-        </div>
+                <button
+                  type="button"
+                  onClick={() => removeSavedResearch(research.id)}
+                  className="mt-3 text-sm font-medium text-destructive hover:underline"
+                >
+                  Remove from Workspace
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="space-y-3">

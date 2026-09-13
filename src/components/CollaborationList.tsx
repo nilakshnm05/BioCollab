@@ -18,6 +18,7 @@ function CollaborationList({ collabs, onView }: CollaborationListProps) {
             status={collab.status}
             expertise={collab.expertise}
             researchAreas={collab.researchAreas}
+            collaborationType={collab.collaborationType}
             onView={onView}
           />
         );

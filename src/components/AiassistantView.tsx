@@ -69,13 +69,13 @@ function AiassistantView() {
     const chunks = isFollowUp
       ? [
           "Building on our previous discussion, ",
-          "AI can help researchers ",
+          "AI can help members ",
           "analyze evidence more efficiently, ",
           "but the results still need verification.",
         ]
       : [
           "AI can",
-          " help researchers",
+          " help members",
           " identify relevant",
           " biomedical evidence.",
         ];
@@ -266,6 +266,7 @@ function AiassistantView() {
                           )}
 
                           <button
+                            type="button"
                             onClick={() => handleSaveEvidence(evidence.id)}
                             className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
                           >

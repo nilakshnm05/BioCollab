@@ -1,63 +1,104 @@
 function ProductPreview() {
   return (
-    <div className="w-full rounded-xl border border-border bg-background p-6 shadow-lg">
-      <div className="flex items-center justify-between">
-        <span className="font-semibold">BioCollab</span>
+    <div className="w-full overflow-hidden rounded-2xl border border-border bg-background shadow-xl">
+      {/* Workspace header */}
+      <div className="flex items-center justify-between border-b border-border px-5 py-4">
+        <span className="font-semibold text-foreground">BioCollab</span>
 
-        <div className="flex gap-1">
-          <span className="h-2 w-2 rounded-full bg-foreground/20" />
-          <span className="h-2 w-2 rounded-full bg-foreground/20" />
-          <span className="h-2 w-2 rounded-full bg-primary" />
+        <div className="flex gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
+          <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
+          <span className="h-2.5 w-2.5 rounded-full bg-primary" />
         </div>
       </div>
-      <div className="mt-6">
-        <p className="text-sm font-medium text-foreground">
-          Find Research and Collaborators
-        </p>
 
-        <p className="mt-1 text-sm text-foreground/60">
-          Search for research, people, and opportunities to work together.
-        </p>
-        <div className="mt-4 flex items-center rounded-md border border-border bg-background px-3 py-2">
-          <span className="text-sm text-foreground/50">
-            Search research, expertise...
-          </span>
-        </div>
-        <div className="mt-4 rounded-lg border border-border bg-background p-4">
-          <p className="text-xs font-medium text-primary">
-            Collaboration opportunity
-          </p>
+      <div className="flex min-h-90">
+        {/* Mini sidebar */}
+        <aside className="hidden w-36 shrink-0 border-r border-border p-3 sm:block">
+          <nav className="space-y-1 text-xs">
+            <div className="rounded-md bg-primary px-3 py-2 font-medium text-primary-foreground">
+              Overview
+            </div>
 
-          <p className="mt-2 text-sm font-semibold text-foreground">
-            Looking for partners in healthcare AI
-          </p>
+            <div className="rounded-md px-3 py-2 text-muted-foreground">
+              Collaboration
+            </div>
 
-          <p className="mt-1 text-xs text-foreground/60">
-            A research team is looking for people to work on AI tools for
-            healthcare.
-          </p>
-          <div className="mt-4 rounded-md bg-accent p-3">
-            <p className="text-xs font-medium text-primary">AI insight</p>
+            <div className="rounded-md px-3 py-2 text-muted-foreground">
+              Research
+            </div>
 
-            <p className="mt-1 text-xs text-foreground/70">
-              We found similar research and possible partners you may want to
-              explore.
+            <div className="rounded-md px-3 py-2 text-muted-foreground">
+              AI Assistant
+            </div>
+          </nav>
+        </aside>
+
+        {/* Workspace content */}
+        <div className="min-w-0 flex-1 p-5">
+          <div>
+            <p className="text-xs font-medium text-primary">Your workspace</p>
+
+            <h2 className="mt-1 text-lg font-semibold text-foreground">
+              Move your research forward
+            </h2>
+          </div>
+
+          {/* Collaboration */}
+          <div className="mt-5 rounded-xl border border-border p-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-medium text-primary">
+                  Active collaboration
+                </p>
+
+                <p className="mt-1 text-sm font-semibold text-foreground">
+                  Oncology AI Study
+                </p>
+              </div>
+
+              <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-medium text-primary">
+                Active
+              </span>
+            </div>
+
+            <p className="mt-2 text-xs text-muted-foreground">
+              Continue working with your collaborators.
             </p>
           </div>
-        </div>
-        <div className="mt-4 rounded-lg border border-border bg-background p-3">
-          <p className="text-xs font-medium text-primary">Research evidence</p>
 
-          <p className="mt-2 text-sm font-medium text-foreground">
-            New research on AI in healthcare
-          </p>
+          {/* Research + AI */}
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-border p-4">
+              <p className="text-xs font-medium text-primary">Research</p>
 
-          <p className="mt-1 text-xs text-foreground/60">
-            Explore recent studies and see how they relate to your work.
-          </p>
+              <p className="mt-2 text-sm font-medium text-foreground">
+                Artificial Intelligence in Clinical Research
+              </p>
+
+              <p className="mt-1 text-xs text-muted-foreground">
+                42 citations · Open access
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border bg-accent/30 p-4">
+              <p className="text-xs font-medium text-primary">
+                AI Research Copilot
+              </p>
+
+              <p className="mt-2 text-sm font-medium text-foreground">
+                Evidence ready to review
+              </p>
+
+              <p className="mt-1 text-xs text-muted-foreground">
+                Explore findings from your research.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
 export default ProductPreview;

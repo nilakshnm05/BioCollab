@@ -8,8 +8,11 @@ import type {
   StatusFilter,
   SortOrder,
 } from "@/types/collaboration";
-import type { CollaborationRequest } from "@/types/collaborationRequest";
+// import type { CollaborationRequest } from "@/types/collaborationRequest";
 import { useCollaboration } from "@/context/CollaborationContext";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 type CollaborationsProps = {
   collabs: Collaboration[];
@@ -26,25 +29,55 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
   function handleClose() {
     setSelectedId(null);
   }
-  const { requests, addRequest } = useCollaboration();
-  function handleExpressInterest(collaborationId: number) {
-    const newRequest: CollaborationRequest = {
-      id: Date.now(),
-      collaborationId,
-      memberId: 1,
-      status: "pending",
-      createdAt: new Date().toISOString(),
-    };
 
-    addRequest(newRequest);
-    console.log(newRequest);
+  const navigate = useNavigate();
+  const { requests, addRequest } = useCollaboration();
+  const { isAuthenticated, currentMember } = useAuth();
+  function handleExpressInterest(collaborationId: number) {
+    if (isAuthenticated && currentMember) {
+      const collaboration = collabs.find(
+        (collab) => collab.id === collaborationId,
+      );
+
+      if (collaboration?.createdByMemberId === currentMember.id) {
+        return;
+      }
+
+      const existingRequest = requests.find(
+        (request) =>
+          request.collaborationId === collaborationId &&
+          request.memberId === currentMember.id,
+      );
+
+      if (existingRequest) {
+        return;
+      }
+
+      addRequest({
+        id: Date.now(),
+        collaborationId,
+        memberId: currentMember.id,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+      });
+
+      navigate("/workspace");
+      return;
+    }
+
+    navigate(`/login?collaborationId=${collaborationId}`);
   }
 
   const existingRequest = selectedCollaboration
     ? requests.find(
-        (request) => request.collaborationId === selectedCollaboration.id
+        (request) =>
+          request.collaborationId === selectedCollaboration.id &&
+          request.memberId === currentMember?.id,
       )
     : undefined;
+
+  const isOwner =
+    selectedCollaboration?.createdByMemberId === currentMember?.id;
 
   const [searchText, setSearchText] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
@@ -76,7 +109,15 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
     <div className="mx-auto max-w-5xl px-6 bg-gray-50 py-8">
       <CollaborationHeader
         title="Discover Collaborations"
-        description="Find researchers and opportunities relevant to your work."
+        description="Find collaboration opportunities relevant to your work."
+        action={
+          <Link
+            to="/discover/create"
+            className="inline-flex w-fit items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
+          >
+            + Create Collaboration
+          </Link>
+        }
       />
       <div className="flex flex-col gap-5">
         <CollaborationControls
@@ -102,6 +143,7 @@ function CollaborationSection({ collabs }: CollaborationsProps) {
             onClose={handleClose}
             onExpressInterest={handleExpressInterest}
             existingRequest={existingRequest}
+            isOwner={isOwner}
           />
         </>
       )}
