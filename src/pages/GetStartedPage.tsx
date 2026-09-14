@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCollaboration } from "@/context/CollaborationContext";
 import { useAuth } from "@/context/AuthContext";
+import { useResearch } from "@/context/ResearchContext";
+import { useState } from "react";
 
 const getStartedSchema = z
   .object({
@@ -36,7 +38,9 @@ function GetStartedPage() {
   const collaborationId = searchParams.get("collaborationId");
 
   const { requests, addRequest, collaborations } = useCollaboration();
-  const { login } = useAuth();
+  const { registration } = useAuth();
+
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const {
     register,
@@ -46,32 +50,49 @@ function GetStartedPage() {
     resolver: zodResolver(getStartedSchema),
   });
 
+  const { pendingUnauthResearch, setPendingUnauthResearch, saveResearch } =
+    useResearch();
+
   function onSubmit(data: GetStartedFormData) {
-    const member = login({ email: data.email, password: data.password });
+    try {
+      const member = registration({ name: data.name, email: data.email, password: data.password });
 
-    const existingRequest = requests.find(
-      (request) =>
-        request.collaborationId === Number(collaborationId) &&
-        request.memberId === member.id,
-    );
+      if (pendingUnauthResearch) {
+        saveResearch(pendingUnauthResearch);
+        setPendingUnauthResearch(null);
+      }
 
-    if (collaborationId) {
-      const collaboration = collaborations.find(
-        (collaboration) => collaboration.id === Number(collaborationId),
+      const existingRequest = requests.find(
+        (request) =>
+          request.collaborationId === Number(collaborationId) &&
+          request.memberId === member.id,
       );
 
-      if (collaboration?.createdByMemberId !== member.id && !existingRequest) {
-        addRequest({
-          id: Date.now(),
-          collaborationId: Number(collaborationId),
-          memberId: member.id,
-          status: "pending",
-          createdAt: new Date().toISOString(),
-        });
-      }
-    }
+      if (collaborationId) {
+        const collaboration = collaborations.find(
+          (collaboration) => collaboration.id === Number(collaborationId),
+        );
 
-    navigate("/workspace");
+        if (
+          collaboration?.createdByMemberId !== member.id &&
+          !existingRequest
+        ) {
+          addRequest({
+            id: Date.now(),
+            collaborationId: Number(collaborationId),
+            memberId: member.id,
+            status: "pending",
+            createdAt: new Date().toISOString(),
+          });
+        }
+      }
+
+      navigate("/workspace");
+    } catch {
+      setAuthError(
+        "Unable to create your account. Please check your details and try again.",
+      );
+    }
   }
 
   return (
@@ -89,6 +110,8 @@ function GetStartedPage() {
               Create your BioCollab account and begin exploring scientific
               collaboration.
             </p>
+
+            {authError && <p>{authError}</p>}
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
               <div className="space-y-2">

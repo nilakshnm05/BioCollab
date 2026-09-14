@@ -8,6 +8,8 @@ type ResearchContextType = {
   saveResearch: (research: Research) => void;
   removeSavedResearch: (researchId: string) => void;
   isResearchSaved: (researchId: string) => boolean;
+  pendingUnauthResearch: Research | null;
+  setPendingUnauthResearch: (research: Research | null) => void;
 };
 
 const ResearchContext = createContext<ResearchContextType | undefined>(
@@ -21,6 +23,8 @@ type ResearchProviderProps = {
 export function ResearchProvider({ children }: ResearchProviderProps) {
   const [savedResearch, setSavedResearch] =
     useState<SavedResearch[]>(initialSavedResearch);
+  const [pendingUnauthResearch, setPendingUnauthResearch] =
+    useState<Research | null>(null);
 
   function saveResearch(research: Research) {
     setSavedResearch((current) => {
@@ -55,6 +59,8 @@ export function ResearchProvider({ children }: ResearchProviderProps) {
         saveResearch,
         removeSavedResearch,
         isResearchSaved,
+        pendingUnauthResearch,
+        setPendingUnauthResearch,
       }}
     >
       {children}

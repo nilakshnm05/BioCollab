@@ -1,20 +1,31 @@
 import { Research } from "@/types/research";
 import { useResearch } from "@/context/ResearchContext";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 type ResearchCardProps = {
   research: Research;
 };
 
 function ResearchCard({ research }: ResearchCardProps) {
-  const { saveResearch, removeSavedResearch, isResearchSaved } = useResearch();
+  const {
+    saveResearch,
+    removeSavedResearch,
+    isResearchSaved,
+    setPendingUnauthResearch,
+  } = useResearch();
 
   const saved = isResearchSaved(research.id);
 
   const sourceUrl = research.doi
     ? research.doi.startsWith("http")
       ? research.doi
-      : `http://doi.org/${research.doi}`
+      : `https://doi.org/${research.doi}`
     : null;
+
+  const { isAuthenticated } = useAuth();
+
+  const navigate = useNavigate();
 
   return (
     <article className="mt-10 rounded-xl border border-border bg-background p-6 shadow-sm transition-shadow hover:shadow-md">
@@ -62,9 +73,18 @@ function ResearchCard({ research }: ResearchCardProps) {
 
           <button
             type="button"
-            onClick={() =>
-              saved ? removeSavedResearch(research.id) : saveResearch(research)
-            }
+            onClick={() => {
+              if (saved) {
+                removeSavedResearch(research.id);
+                return;
+              }
+              if (!isAuthenticated) {
+                setPendingUnauthResearch(research);
+                navigate("/login");
+                return;
+              }
+              saveResearch(research);
+            }}
             className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
           >
             {saved ? "Saved" : "Save to Workspace"}

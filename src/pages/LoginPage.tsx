@@ -5,6 +5,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCollaboration } from "@/context/CollaborationContext";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
+import { useResearch } from "@/context/ResearchContext";
 
 const loginSchema = z.object({
   email: z
@@ -40,9 +41,17 @@ function LoginPage() {
 
   const [authError, setAuthError] = useState<string | null>(null);
 
+  const { pendingUnauthResearch, setPendingUnauthResearch, saveResearch } =
+    useResearch();
+
   function onSubmit(data: LoginFormData) {
     try {
       const member = login(data);
+      
+      if (pendingUnauthResearch) {
+        saveResearch(pendingUnauthResearch);
+        setPendingUnauthResearch(null);
+      }
 
       const existingRequest = requests.find(
         (request) =>
@@ -55,7 +64,10 @@ function LoginPage() {
           (collaboration) => collaboration.id === Number(collaborationId),
         );
 
-        if (collaboration?.createdByMemberId !== member.id && !existingRequest) {
+        if (
+          collaboration?.createdByMemberId !== member.id &&
+          !existingRequest
+        ) {
           addRequest({
             id: Date.now(),
             collaborationId: Number(collaborationId),
